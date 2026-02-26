@@ -9,28 +9,31 @@ export default async function HomePage() {
 
   return (
     <div className="w-full">
-      {/* 沉浸式 Hero 区（高度 120px Header + 952px 背景 = 1072px） */}
-      <div className="w-full h-[1072px] bg-slate-800 relative flex flex-col justify-center px-20">
+      {/* 沉浸式 Hero 区 */}
+      <div className="w-full h-[1072px] relative flex flex-col">
         {/* Background image */}
-        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?q=80&w=2070&auto=format&fit=crop')] bg-cover bg-center opacity-50 mix-blend-overlay"></div>
+        <div className="absolute top-[134px] left-0 right-0 bottom-0 bg-[url('https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?q=80&w=2070&auto=format&fit=crop')] bg-cover bg-center"></div>
         
-        <div className="relative z-10 max-w-3xl">
-          <h1 className="text-6xl font-bold text-white mb-6 leading-tight">
-            Global B2B Sourcing <br/> Made Easy
-          </h1>
-          <p className="text-xl text-gray-200 mb-10">
-            Connect with verified suppliers and manufacturers worldwide.
-          </p>
-          
-          <div className="flex items-center bg-white rounded-full p-2 w-full max-w-2xl shadow-lg">
-            <input 
-              type="text" 
-              placeholder="Search products, suppliers, or categories..." 
-              className="flex-1 bg-transparent border-none outline-none px-6 text-gray-800 text-lg"
-            />
-            <button className="bg-[#e3a348] text-white px-8 py-3 rounded-full font-bold hover:bg-[#d19237] transition-colors">
-              Search
-            </button>
+        {/* 顶部线性渐变遮罩层 */}
+        <div className="absolute top-[134px] left-0 w-full h-[226px] bg-gradient-to-b from-[#000000] to-transparent z-10"></div>
+        
+        <div className="relative z-20 w-full h-full pt-[254px]">
+          <div className="pl-[148px]">
+            <h1 className="text-[64px] font-[500] text-white leading-[85px] mb-[40px]">
+              From Discovery to Delivery<br/>
+              The Future of Procurement is Here
+            </h1>
+            
+            <div className="flex items-center bg-white rounded-full p-2 w-[770px] shadow-lg">
+              <input 
+                type="text" 
+                placeholder="Search products, suppliers, or categories..." 
+                className="flex-1 bg-transparent border-none outline-none px-6 text-gray-800 text-lg"
+              />
+              <button className="bg-[#e3a348] text-white px-8 py-3 rounded-full font-bold hover:bg-[#d19237] transition-colors cursor-pointer">
+                Search
+              </button>
+            </div>
           </div>
         </div>
       </div>

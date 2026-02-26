@@ -10,7 +10,7 @@ export function getRoleFromCookie(): Role {
 }
 
 export function setRoleCookie(role: Role) {
-  document.cookie = `userRole=${role}; path=/; max-age=31536000`;
+  document.cookie = `userRole=${role}; path=/; max-age=31536000; SameSite=None; Secure`;
   window.dispatchEvent(new Event('roleChange'));
 }
 
@@ -18,6 +18,7 @@ export function useAuth() {
   const [userRole, setUserRole] = useState<Role>('guest');
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setUserRole(getRoleFromCookie());
     const handleRoleChange = () => {
       setUserRole(getRoleFromCookie());

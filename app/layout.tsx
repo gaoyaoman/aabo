@@ -2,6 +2,7 @@ import type {Metadata} from 'next';
 import './globals.css'; // Global styles
 import AppHeader from '@/components/layout/AppHeader';
 import AppFooter from '@/components/layout/AppFooter';
+import MainLayoutWrapper from '@/components/layout/MainLayoutWrapper';
 
 export const metadata: Metadata = {
   title: 'B2B E-commerce Platform',
@@ -13,9 +14,9 @@ export default function RootLayout({children}: {children: React.ReactNode}) {
     <html lang="en">
       <body className="flex flex-col min-h-screen bg-gray-50" suppressHydrationWarning>
         <AppHeader />
-        <main className="flex-1 w-full">
+        <MainLayoutWrapper>
           {children}
-        </main>
+        </MainLayoutWrapper>
         <AppFooter />
       </body>
     </html>

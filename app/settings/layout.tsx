@@ -7,7 +7,7 @@ export default function SettingsLayout({ children }: { children: React.ReactNode
   const pathname = usePathname();
 
   return (
-    <div className="flex p-5 gap-5 min-h-[calc(100vh-120px-200px)] max-w-7xl mx-auto w-full">
+    <div className="flex gap-[20px] min-h-[calc(100vh-120px-200px)] w-full">
       {/* 左侧：垂直方向展示的 Menus */}
       <aside className="w-[200px] bg-white border border-gray-200 rounded shrink-0 self-start">
         <h3 className="p-4 border-b border-gray-100 m-0 text-base font-bold text-gray-800">管理端设置</h3>
