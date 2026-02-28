@@ -1,44 +1,21 @@
-'use client';
-
 import Link from 'next/link';
-import { useSearchParams } from 'next/navigation';
-import { use } from 'react';
-import CheckboxGroup from '@/components/ui/CheckboxGroup';
-import CustomCheckbox from '@/components/ui/CustomCheckbox';
+import { Suspense } from 'react';
+import Breadcrumb from '@/components/ui/Breadcrumb';
+import ManufacturerFilters from './ManufacturerFilters';
 
-export default function ManufacturerProductsPage({ params }: { params: Promise<{ id: string }> }) {
-  const { id } = use(params);
-  const searchParams = useSearchParams();
-  const regions = searchParams.getAll('region');
+export default async function ManufacturerProductsPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
 
   return (
-    <div className="w-full flex gap-[20px]">
+    <div className="w-full flex gap-[20px] relative">
+      <Breadcrumb items={[
+        { label: 'MANUFACTURER', href: '/manufacturers' },
+        { label: `制造商产品 (ID: ${id})` }
+      ]} />
       {/* 左侧：筛选 */}
-      <div className="w-[304px] bg-[#FFFFFF] rounded-[12px] py-[24px] px-[20px] shrink-0">
-        {regions.length > 0 && (
-          <div className="mb-8">
-            <div className="text-[16px] font-[600] tracking-[0px] leading-[21.82px] text-[rgba(135,144,155,1)] text-left align-top mb-3">已选销售区域</div>
-            <div className="flex flex-wrap gap-2">
-              {regions.map(r => (
-                <span key={r} className="bg-blue-50 text-blue-600 px-2 py-1 rounded text-sm border border-blue-100">
-                  {r}
-                </span>
-              ))}
-            </div>
-          </div>
-        )}
-
-        <CheckboxGroup title="类别">
-          <CustomCheckbox label="建筑材料" checked={false} />
-          <CustomCheckbox label="机械设备" checked={false} />
-          <CustomCheckbox label="电子元器件" checked={false} />
-        </CheckboxGroup>
-
-        <CheckboxGroup title="内容类型">
-          <CustomCheckbox label="现货" checked={false} />
-          <CustomCheckbox label="定制" checked={false} />
-        </CheckboxGroup>
-      </div>
+      <Suspense fallback={<div className="w-[304px] bg-[#FFFFFF] rounded-[12px] py-[24px] px-[20px] shrink-0">Loading filters...</div>}>
+        <ManufacturerFilters />
+      </Suspense>
 
       {/* 右侧：产品列表 */}
       <div className="flex-1">

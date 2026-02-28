@@ -3,19 +3,13 @@
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useAuth } from '@/lib/auth';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 export default function AppHeader() {
   const pathname = usePathname();
   const router = useRouter();
   const { userRole, isLoggedIn, setRole } = useAuth();
-  const [mounted, setMounted] = useState(false);
   const [language, setLanguage] = useState<'en' | 'zh'>('en');
-
-  useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setMounted(true);
-  }, []);
 
   const isHomePage = pathname === '/';
 
@@ -27,7 +21,7 @@ export default function AppHeader() {
     { name: language === 'zh' ? '文件管理' : 'FILE MANAGEMENT', path: '/files', roles: ['supplier'] }
   ];
 
-  const tabs = allTabs.filter(tab => !tab.roles || tab.roles.includes(mounted ? userRole : 'guest'));
+  const tabs = allTabs.filter(tab => !tab.roles || tab.roles.includes(userRole));
 
   const goSettings = () => router.push('/settings/categories');
 
@@ -54,11 +48,9 @@ export default function AppHeader() {
               <button className="hover:opacity-80 cursor-pointer">Buyer Center</button>
             </>
           )}
-          {mounted && (
-            <button onClick={cycleRole} className="ml-4 px-2 py-1 bg-blue-500 text-white rounded text-xs cursor-pointer">
-              Demo: Switch Role (Current: {userRole})
-            </button>
-          )}
+          <button onClick={cycleRole} className="ml-4 px-2 py-1 bg-blue-500 text-white rounded text-xs cursor-pointer">
+            Demo: Switch Role (Current: {userRole})
+          </button>
         </div>
         <div className="flex gap-[48px] items-center">
           <select className={`bg-transparent border-none outline-none cursor-pointer ${isHomePage ? 'text-white' : 'text-[#87909b]'}`}>
@@ -73,7 +65,7 @@ export default function AppHeader() {
             <option value="zh" className="text-black">中文</option>
           </select>
           
-          {mounted && isLoggedIn ? (
+          {isLoggedIn ? (
             userRole === 'admin' ? (
               <span className="cursor-pointer hover:opacity-80" onClick={goSettings}>设置</span>
             ) : (
@@ -81,9 +73,9 @@ export default function AppHeader() {
             )
           ) : null}
           
-          {mounted && !isLoggedIn ? (
+          {!isLoggedIn ? (
             <span className={`cursor-pointer hover:opacity-80 ${isHomePage ? 'text-[#e3a348]' : 'text-[#87909b]'}`} onClick={() => { setRole('client'); router.refresh(); }}>登录 / 我的信息</span>
-          ) : mounted && isLoggedIn ? (
+          ) : isLoggedIn ? (
             <span className="cursor-pointer hover:opacity-80" onClick={() => { setRole('guest'); router.refresh(); }}>退出登录</span>
           ) : null}
         </div>
@@ -101,7 +93,7 @@ export default function AppHeader() {
                 className="flex-1 bg-transparent border-none outline-none px-4 text-gray-800 text-[14px] h-full"
               />
               <button className="bg-[#e3a348] text-white px-[32px] h-full font-[600] text-[16px] leading-[22px] hover:bg-[#d19237] transition-colors cursor-pointer">
-                Search
+                SEARCH
               </button>
             </div>
           )}

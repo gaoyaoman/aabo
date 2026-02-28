@@ -1,19 +1,30 @@
 'use client';
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { Suspense } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import CheckboxGroup from '@/components/ui/CheckboxGroup';
 import CustomCheckbox from '@/components/ui/CustomCheckbox';
+import Breadcrumb from '@/components/ui/Breadcrumb';
 
-export default function ManufacturersPage() {
+function ManufacturersContent() {
   const router = useRouter();
-  const [selectedRegions, setSelectedRegions] = useState<string[]>([]);
+  const searchParams = useSearchParams();
+  const selectedRegions = searchParams.getAll('region');
   const regions = ['中国', '美国', '英国', '加拿大', '德国'];
 
   const toggleRegion = (region: string) => {
-    setSelectedRegions(prev => 
-      prev.includes(region) ? prev.filter(r => r !== region) : [...prev, region]
-    );
+    const current = new URLSearchParams(Array.from(searchParams.entries()));
+    const regions = current.getAll('region');
+    
+    current.delete('region');
+    
+    if (regions.includes(region)) {
+      regions.filter(r => r !== region).forEach(r => current.append('region', r));
+    } else {
+      [...regions, region].forEach(r => current.append('region', r));
+    }
+    
+    router.push(`/manufacturers?${current.toString()}`);
   };
 
   const manufacturers = [
@@ -32,7 +43,8 @@ export default function ManufacturersPage() {
   };
 
   return (
-    <div className="w-full flex gap-[20px]">
+    <div className="w-full flex gap-[20px] relative">
+      <Breadcrumb items={[{ label: 'MANUFACTURER' }]} />
       {/* 左侧：销售区域筛选 */}
       <div className="w-[304px] bg-[#FFFFFF] rounded-[12px] py-[24px] px-[20px] shrink-0">
         <CheckboxGroup title="销售区域">
@@ -75,5 +87,13 @@ export default function ManufacturersPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function ManufacturersPage() {
+  return (
+    <Suspense fallback={<div className="w-full h-full flex items-center justify-center">Loading...</div>}>
+      <ManufacturersContent />
+    </Suspense>
   );
 }

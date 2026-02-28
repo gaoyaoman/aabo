@@ -31,7 +31,7 @@ export default async function HomePage() {
                 className="flex-1 bg-transparent border-none outline-none px-6 text-gray-800 text-lg"
               />
               <button className="bg-[#e3a348] text-white px-8 py-3 rounded-full font-bold hover:bg-[#d19237] transition-colors cursor-pointer">
-                Search
+                SEARCH
               </button>
             </div>
           </div>
